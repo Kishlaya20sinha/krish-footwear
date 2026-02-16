@@ -1,132 +1,41 @@
 # 👟 KRISH FOOTWEAR
 
-A Full Stack MERN E-Commerce Web Application for footwear shopping with secure authentication and integrated payment gateway.
+A Full Stack E-Commerce Web Application for footwear shopping.
 
-Built with modern scalable architecture and cloud database infrastructure.
+Built using the MERN Stack (MongoDB, Express, React, Node.js).
 
 ---
 
 ## 🚀 Live Demo
-
-Coming Soon...
-
----
-
-## 🧱 System Architecture & Tech Stack
-
-Krish Footwear follows a full-stack MERN architecture with secure authentication, cloud database storage, and integrated payment processing.
+(Coming Soon)
 
 ---
 
-### 🎨 1. Frontend (Client Side)
+## 🛠️ Tech Stack
 
-- **React.js** – Dynamic and interactive UI development
-- **Material UI (MUI)** – Modern, responsive, and professional UI components
-- **Redux** – Centralized state management for:
-  - Shopping cart handling
-  - User session persistence
-  - Global application state
+### Frontend
+- React.js
+- HTML5
+- CSS3
+- JavaScript
 
----
+### Backend
+- Node.js
+- Express.js
 
-### ⚙️ 2. Backend (Server Side)
-
-- **Node.js** – Server-side JavaScript runtime
-- **Express.js** – RESTful API framework
-- **JWT (JSON Web Tokens)** – Secure authentication & protected routes
+### Database
+- MongoDB
 
 ---
 
-### 🗄️ 3. Database & Storage
+## ✨ Features
 
-- **MongoDB Atlas** – Cloud-based NoSQL database
-  - Stores product records
-  - Manages user accounts
-  - Handles order data
-
-- **Automated Data Synchronization**
-  - Clears outdated records on server startup
-  - Repopulates fresh product data
-  - Maintains database consistency
-
----
-
-### 🔐 4. Third-Party Integrations & Security
-
-- **Paytm Payment Gateway**
-  - Secure financial transaction processing
-  - Checkout verification system
-
-- **Dotenv**
-  - Secure environment variable management
-  - Protects:
-    - Database credentials
-    - JWT secrets
-    - API keys
-
-- **Git Security Best Practices**
-  - Proper `.gitignore` configuration
-  - Prevents pushing:
-    - `.env`
-    - `node_modules`
-    - Sensitive credentials
-
----
-
-## ✨ Key Features
-
-- 🛍️ Product Listing & Details Page
-- 🔍 Dynamic Routing
-- 🛒 Add to Cart with Redux
-- 🔐 JWT Authentication System
-- 👤 Protected User Routes
-- 💳 Integrated Paytm Payment Gateway
+- 🛍️ Product listing
+- 🛒 Add to Cart
+- 🔐 User Authentication
+- 👤 Admin Panel
 - 📦 Order Management
-- 📱 Fully Responsive Design
-
----
-
-## 📸 Project Screenshots
-
-### 🏠 Homepage
-<p align="center">
-  <img src="assets/homepage.png" width="900"/>
-</p>
-
----
-
-### 🔐 Login Page
-<p align="center">
-  <img src="assets/loginpage.png" width="900"/>
-</p>
-
----
-
-### 👟 Product Page
-<p align="center">
-  <img src="assets/product-page.png" width="900"/>
-</p>
-
----
-
-### 🛒 Cart Page
-<p align="center">
-  <img src="assets/cart.png" width="900"/>
-</p>
-
----
-
-### 💳 Payment Page
-<p align="center">
-  <img src="assets/payment.png" width="900"/>
-</p>
-
----
-
-### 🧺 Empty Cart
-<p align="center">
-  <img src="assets/empty-cart.png" width="900"/>
-</p>
+- 📱 Responsive Design
 
 ---
 
@@ -134,78 +43,63 @@ Krish Footwear follows a full-stack MERN architecture with secure authentication
 
 KRISH-FOOTWEAR
 │
-├── client # React + Redux Frontend
-├── server # Node + Express Backend
-├── assets # Screenshots
+├── client         # React + Redux Frontend
+├── server         # Node + Express Backend
+├── assets         # Screenshots
 ├── package.json
 └── README.md
-
-yaml
-Copy code
 
 ---
 
 ## ⚙️ Installation & Setup
 
-### 1️⃣ Clone the Repository
+### 1️⃣ Clone the repository
 
 ```bash
 git clone https://github.com/Kishlaya20sinha/krish-footwear.git
-2️⃣ Install Dependencies
-Root:
+2️⃣ Install dependencies
+For root:
 
 bash
 Copy code
 npm install
-Client:
+For client:
 
 bash
 Copy code
 cd client
 npm install
-Server:
+For server:
 
 bash
 Copy code
 cd server
 npm install
-3️⃣ Run the Application
-Start Backend:
+3️⃣ Run the application
+Backend:
 
 bash
 Copy code
 cd server
 npm start
-Start Frontend:
+Frontend:
 
 bash
 Copy code
 cd client
 npm start
-🏗️ Architecture Flow
-React + Redux (Frontend)
-⬇
-Express REST API (Node.js Backend)
-⬇
-MongoDB Atlas (Cloud Database)
-⬇
-Paytm Gateway (Payment Processing)
+📈 Future Improvements
+Online Payment Integration
 
-📈 Future Enhancements
-⭐ Product Reviews & Ratings
+Product Reviews & Ratings
 
-❤️ Wishlist Feature
+Wishlist Feature
 
-📊 Admin Dashboard Analytics
-
-☁️ Cloud Deployment (AWS / Render / Vercel)
-
-🔔 Email Notifications
+Deployment on Cloud
 
 👨‍💻 Author
 Kishlaya Sinha
 B.Tech CSE | Full Stack Developer | ML Enthusiast
 
 🔗 GitHub: https://github.com/Kishlaya20sinha
-🔗 LinkedIn: https://www.linkedin.com/in/kishlaya-sinha-9134a0211/
-
+🔗 LinkedIn: 
