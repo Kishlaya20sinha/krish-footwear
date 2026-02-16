@@ -132,15 +132,20 @@ Krish Footwear follows a full-stack MERN architecture with secure authentication
 
 ---
 
+---
+
 ## 📂 Project Structure
 
+```
 KRISH-FOOTWEAR
 │
-├── client # React + Redux Frontend
-├── server # Node + Express Backend
-├── assets # Screenshots
+├── client        # React + Redux Frontend
+├── server        # Node + Express Backend
+├── assets        # Screenshots
 ├── package.json
 └── README.md
+```
+
 ---
 
 ## ⚙️ Installation & Setup
@@ -149,30 +154,46 @@ KRISH-FOOTWEAR
 
 ```bash
 git clone https://github.com/Kishlaya20sinha/krish-footwear.git
-2️⃣ Install Dependencies
-npm install
-2️⃣ Install Dependencies
-Root
-npm install
+```
 
-Client
+### 2️⃣ Install Dependencies
+
+#### Root
+```bash
+npm install
+```
+
+#### Client
+```bash
 cd client
 npm install
+```
 
-Server
+#### Server
+```bash
 cd server
 npm install
+```
 
-3️⃣ Run the Application
-Start Backend
+### 3️⃣ Run the Application
+
+#### Start Backend
+```bash
 cd server
 npm start
+```
 
-Start Frontend
+#### Start Frontend
+```bash
 cd client
 npm start
+```
 
-🏗️ Architecture Flow
+---
+
+## 🏗️ Architecture Flow
+
+```
 React + Redux (Frontend)
         ↓
 Express REST API (Node.js Backend)
@@ -180,24 +201,30 @@ Express REST API (Node.js Backend)
 MongoDB Atlas (Cloud Database)
         ↓
 Paytm Gateway (Payment Processing)
+```
 
-📈 Future Enhancements
+---
 
-⭐ Product Reviews & Ratings
+## 📈 Future Enhancements
 
-❤️ Wishlist Feature
+- ⭐ Product Reviews & Ratings
+- ❤️ Wishlist Feature
+- 📊 Admin Dashboard Analytics
+- ☁️ Cloud Deployment (AWS / Render / Vercel)
+- 🔔 Email Notifications
 
-📊 Admin Dashboard Analytics
+---
 
-☁️ Cloud Deployment (AWS / Render / Vercel)
+## 👨‍💻 Author
 
-🔔 Email Notifications
+**Kishlaya Sinha**  
+B.Tech CSE | Full Stack Developer | ML Enthusiast  
 
-👨‍💻 Author
+🔗 GitHub: [Kishlaya20sinha](https://github.com/Kishlaya20sinha)  
+🔗 LinkedIn: [Kishlaya Sinha](https://www.linkedin.com/in/kishlaya-sinha-9134a0211/)
 
-Kishlaya Sinha
-B.Tech CSE | Full Stack Developer | ML Enthusiast
+---
 
-🔗 GitHub: Kishlaya20sinha
+## ⭐ Show Your Support
 
-🔗 LinkedIn: Kishlaya Sinha
+If you like this project, consider giving it a ⭐ on GitHub!
