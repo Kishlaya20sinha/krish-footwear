@@ -39,15 +39,16 @@ Built using the MERN Stack (MongoDB, Express, React, Node.js).
 
 ---
 
-## 📂 Project Structure
+## 📁 Project Structure
 
 KRISH-FOOTWEAR
 │
-├── client         # React + Redux Frontend
-├── server         # Node + Express Backend
-├── assets         # Screenshots
+├── client # React + Redux Frontend
+├── server # Node + Express Backend
+├── assets # Screenshots
 ├── package.json
 └── README.md
+
 
 ---
 
