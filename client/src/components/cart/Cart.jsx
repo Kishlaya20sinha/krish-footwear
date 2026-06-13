@@ -1,12 +1,10 @@
 import { useSelector } from "react-redux";
 import { Box, Typography, Grid, styled, Button } from "@mui/material";
 
-// components
 import CartItem from './CartItem';
 import TotalView from './TotalView';
 import EmptyCart from './EmptyCart';
 
-// Payment functions ko import kar rahe hain.
 import { payUsingPaytm } from "../../service/api";
 import { post } from "../utils/paytm";
 
@@ -55,47 +53,40 @@ const StyledButton = styled(Button)`
 const Cart = () => {
     const { cartItems } = useSelector(state => state.cart);
 
-    // Cart ke saare items ka total amount calculate karne ke liye function.
     const buyNow = async () => {
-        // Sabse pehle total price calculate karte hain (TotalView logic ki tarah).
-        let totalPrice = 0;
-        cartItems.map(item => {
-            totalPrice += item.price.cost;
-        });
+        // Send items to backend so price is calculated server-side
+        const items = cartItems.map(item => ({
+            id: item.id,
+            quantity: item.quantity,
+            size: item.size
+        }));
 
-        // Backend se checksum aur parameters mangwa rahe hain.
-        let response = await payUsingPaytm({ amount: totalPrice, email: 'krish@gmail.com' });
-        
-        if (response) {
-            let information = {
+        const response = await payUsingPaytm({ items });
+
+        if (response && !response.status) {
+            post({
                 action: 'https://securegw-stage.paytm.in/order/process',
-                params: response 
-            }
-            // Hidden form submit karke Paytm screen par redirect karega.
-            post(information);
+                params: response
+            });
         }
-    }
+    };
 
     return (
         <>
-            {
-                cartItems && cartItems.length > 0 ? 
+            {cartItems && cartItems.length > 0 ? (
                 <Component>
                     <Grid container>
                         <LeftComponent item lg={9} md={9} sm={12} xs={12}>
                             <Header>
-                                <Typography style={{fontWeight: 600, fontSize: 18}}>
+                                <Typography style={{ fontWeight: 600, fontSize: 18 }}>
                                     My Cart ({cartItems.length})
                                 </Typography>
                             </Header>
-                            {
-                                cartItems.map(item => (
-                                    <CartItem item={item} key={item.id} />
-                                ))
-                            }
+                            {cartItems.map(item => (
+                                <CartItem item={item} key={item.cartKey} />
+                            ))}
                             <ButtonWrapper>
-                                {/* onClick (lower-case 'c') ko correctly bind kiya. */}
-                                <StyledButton variant="contained" onClick={() => buyNow()}>Place Order</StyledButton>
+                                <StyledButton variant="contained" onClick={buyNow}>Place Order</StyledButton>
                             </ButtonWrapper>
                         </LeftComponent>
 
@@ -104,10 +95,11 @@ const Cart = () => {
                         </Grid>
                     </Grid>
                 </Component>
-                : <EmptyCart />
-            }
+            ) : (
+                <EmptyCart />
+            )}
         </>
     );
-}
+};
 
 export default Cart;

@@ -1,46 +1,57 @@
 import express from "express";
-import connection from "./database/db.js";
+import cors from "cors";
 import dotenv from "dotenv";
+import rateLimit from "express-rate-limit";
+
+import connection from "./database/db.js";
 import DefaultData from "./default.js";
 import Router from "./routes/routes.js";
-import cors from "cors";
-import bodyParser from "body-parser";
-import { v4 as uuid } from 'uuid'; // Unique Order ID banane ke liye uuid zaroori hai.
+
+dotenv.config();
 
 const app = express();
-dotenv.config(); 
 
-app.use(cors()); 
-app.use(bodyParser.json({ extended: true })); 
-// Ye line sabse upar honi chahiye routes se pehle taaki callback data read ho sake.
-app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(cors({
+    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    credentials: true
+}));
 
-// Pehle middleware, fir routes.
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+export const loginLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 10,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { message: 'Too many login attempts, please try again after 15 minutes' }
+});
+
 app.use("/", Router);
 
-const PORT = 8000; 
-const USERNAME = process.env.DB_USERNAME; 
-const PASSWORD = process.env.DB_PASSWORD; 
+const PORT = process.env.PORT || 8000;
+const USERNAME = process.env.DB_USERNAME;
+const PASSWORD = process.env.DB_PASSWORD;
 
 const startServer = async () => {
     try {
-        await connection(USERNAME, PASSWORD); 
-        await DefaultData(); 
+        await connection(USERNAME, PASSWORD);
+        await DefaultData();
         app.listen(PORT, () => {
-            console.log(`✅ Server is running successfully on port ${PORT}`);
+            console.log(`Server is running on port ${PORT}`);
         });
     } catch (error) {
-        console.log("❌ Error during server startup:", error.message);
+        console.log("Error during server startup:", error.message);
     }
 };
 
 startServer();
 
-// Paytm Settings
-export let paytmMerchantKey = process.env.PAYTM_MERCHANT_KEY;
-export let paytmParams = {};
-paytmParams.MID = process.env.PAYTM_MID;
-paytmParams.WEBSITE = process.env.PAYTM_WEBSITE;
-paytmParams.CHANNEL_ID = process.env.PAYTM_CHANNEL_ID;
-paytmParams.INDUSTRY_TYPE_ID = process.env.PAYTM_INDUSTRY_TYPE_ID;
-paytmParams.CALLBACK_URL = "http://localhost:8000/callback";
+export const paytmMerchantKey = process.env.PAYTM_MERCHANT_KEY;
+export const paytmParams = {
+    MID: process.env.PAYTM_MID,
+    WEBSITE: process.env.PAYTM_WEBSITE,
+    CHANNEL_ID: process.env.PAYTM_CHANNEL_ID,
+    INDUSTRY_TYPE_ID: process.env.PAYTM_INDUSTRY_TYPE_ID,
+    CALLBACK_URL: `${process.env.SERVER_URL || 'http://localhost:8000'}/callback`
+};

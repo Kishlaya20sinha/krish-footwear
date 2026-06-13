@@ -1,52 +1,50 @@
 import { useState, useContext } from "react";
 import { Dialog, Box, styled, Typography, Button, TextField } from "@mui/material";
-import { authenticateSignup, authenticateLogin } from "../../service/api"; 
+import { authenticateSignup, authenticateLogin } from "../../service/api";
 import { DataContext } from "../../context/DataProvider";
 
-// --- Styled Components ---
-
 const Component = styled(Box)`
-    height: 70vh; 
-    width: 90vh;  
+    height: 70vh;
+    width: 90vh;
 `;
 
 const Image = styled(Box)`
     background: #a4aff6ff url(https://i.ibb.co/qYZtbwTB/photograph-krish-footwear-login.jpg) center center no-repeat;
-    background-size: contain; 
-    height: 100%; 
-    width: 28%;  
-    padding: 45px 35px; 
+    background-size: contain;
+    height: 100%;
+    width: 28%;
+    padding: 45px 35px;
     & > p, & > h5 {
-        color: #0d0d0dff; 
-        font-weight: 600; 
+        color: #0d0d0dff;
+        font-weight: 600;
     }
 `;
 
 const Wrapper = styled(Box)`
-    display: flex; 
-    flex-direction: column; 
-    padding: 25px 35px; 
-    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    padding: 25px 35px;
+    flex: 1;
     & > div, & > button, & > p {
-        margin-top: 20px; 
+        margin-top: 20px;
     }
 `;
 
 const LoginButton = styled(Button)`
-    text-transform: none; 
-    background: #7fba1eff; 
+    text-transform: none;
+    background: #7fba1eff;
     color: #501111ff;
     height: 48px;
-    border-radius: 2px; 
+    border-radius: 2px;
 `;
 
 const RequestOtp = styled(Button)`
-    text-transform: none; 
+    text-transform: none;
     background: #18669bff;
-    color: #fff; 
+    color: #fff;
     height: 48px;
     border-radius: 2px;
-    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%); 
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
 `;
 
 const Error = styled(Typography)`
@@ -58,81 +56,71 @@ const Error = styled(Typography)`
 `;
 
 const Text = styled(Typography)`
-    font-size: 12px; 
-    color: #878787; 
+    font-size: 12px;
+    color: #878787;
 `;
 
 const CreateAccount = styled(Typography)`
     font-size: 14px;
     text-align: center;
-    color: #2874f0; 
+    color: #2874f0;
     font-weight: 600;
-    cursor: pointer; 
+    cursor: pointer;
 `;
-
-// --- Initial Constants ---
 
 const accountInitialValues = {
     login: { view: 'login', heading: 'Login', subHeading: 'Get access to your Orders, Wishlist and Recommendations' },
     signup: { view: 'signup', heading: "Looks like you're new here", subHeading: 'Sign up with your mobile number to get started' }
 };
 
-const signupInitialValues = {
-    firstname: '', lastname: '', username: '', email: '', password: '', phone: ''
-};
-
-const loginInitialValues = {
-    username: '',
-    password: ''
-};
-
-// --- Main Component ---
+const signupInitialValues = { firstname: '', lastname: '', username: '', email: '', password: '', phone: '' };
+const loginInitialValues = { username: '', password: '' };
 
 const LoginDialog = ({ open, setOpen }) => {
-    const [account, toggleAccount] = useState(accountInitialValues.login); 
-    const [signup, setSignup] = useState(signupInitialValues); 
-    const [login, setLogin] = useState(loginInitialValues); 
-    const [error, setError] = useState(false); // This state handles the logic for showing/hiding the error message
+    const [account, toggleAccount] = useState(accountInitialValues.login);
+    const [signup, setSignup] = useState(signupInitialValues);
+    const [login, setLogin] = useState(loginInitialValues);
+    const [error, setError] = useState('');
 
-    const { setAccount } = useContext(DataContext); 
+    const { setAccount } = useContext(DataContext);
 
     const handleClose = () => {
-        setOpen(false); // Close the popup
-        toggleAccount(accountInitialValues.login); // Reset view to login for next time
-        setError(false); // Hide error message on close
-    }
-
-    const toggleSignup = () => {
-        toggleAccount(accountInitialValues.signup); // Switch to the signup screen
-    }
+        setOpen(false);
+        toggleAccount(accountInitialValues.login);
+        setError('');
+    };
 
     const onInputChange = (e) => {
-        setSignup({ ...signup, [e.target.name]: e.target.value }); // Update signup data state
-    }
+        setSignup({ ...signup, [e.target.name]: e.target.value });
+    };
 
     const onValueChange = (e) => {
-        setLogin({ ...login, [e.target.name]: e.target.value }); // Update login data state
-    }
+        setLogin({ ...login, [e.target.name]: e.target.value });
+    };
 
     const signupUser = async () => {
-        let response = await authenticateSignup(signup); // API call to create user
-        if (response && response.status === 200) {
-            handleClose(); 
-            setAccount(signup.firstname); // Update name in header globally
+        setError('');
+        const response = await authenticateSignup(signup);
+        if (response && response.status === 201) {
+            handleClose();
+            setAccount(signup.firstname);
         } else {
-            console.log("Signup failed");
+            const msg = response?.data?.message || 'Signup failed. Please try again.';
+            setError(msg);
         }
-    }
+    };
 
     const loginUser = async () => {
-        let response = await authenticateLogin(login); // API call to verify user
+        setError('');
+        const response = await authenticateLogin(login);
         if (response && response.status === 200) {
-            handleClose(); 
-            setAccount(response.data.data.firstname); // Set first name from database response
+            localStorage.setItem('token', response.data.token);
+            handleClose();
+            setAccount(response.data.data.firstname);
         } else {
-            setError(true); // Trigger the "Error" styled component visibility
+            setError('Invalid username or password');
         }
-    }
+    };
 
     return (
         <Dialog open={open} onClose={handleClose} PaperProps={{ sx: { maxWidth: 'unset' } }}>
@@ -143,33 +131,31 @@ const LoginDialog = ({ open, setOpen }) => {
                         <Typography style={{ marginTop: 20 }}>{account.subHeading}</Typography>
                     </Image>
 
-                    {
-                        account.view === 'login' ?
-                            <Wrapper>
-                                <TextField variant="standard" onChange={(e) => onValueChange(e)} name='username' label="Enter Username" />
-                                { error && <Error>Please enter valid Username or Password</Error> }
-                                <TextField variant="standard" onChange={(e) => onValueChange(e)} name='password' label="Enter Password" type="password" />
-
-                                <Text>By continuing, you agree to <span style={{ color: '#2874f0' }}> Krish Footwear's Terms & Conditions</span></Text>
-
-                                <LoginButton onClick={() => loginUser()}>Login</LoginButton>
-
-                                <Typography style={{ textAlign: 'center', color: '#878787' }}>OR</Typography>
-                                <RequestOtp>Request OTP</RequestOtp>
-                                <CreateAccount onClick={() => toggleSignup()}>New to Krish Footwear? Create an account</CreateAccount>
-                            </Wrapper>
-                            :
-                            <Wrapper>
-                                <TextField variant="standard" onChange={(e) => onInputChange(e)} name='firstname' label="Enter Firstname" />
-                                <TextField variant="standard" onChange={(e) => onInputChange(e)} name='lastname' label="Enter Lastname" />
-                                <TextField variant="standard" onChange={(e) => onInputChange(e)} name='username' label="Enter Username" />
-                                <TextField variant="standard" onChange={(e) => onInputChange(e)} name='email' label="Enter Email" />
-                                <TextField variant="standard" onChange={(e) => onInputChange(e)} name='password' label="Enter Password" />
-                                <TextField variant="standard" onChange={(e) => onInputChange(e)} name='phone' label="Enter Mobile Number" />
-
-                                <LoginButton onClick={() => signupUser()}>Continue</LoginButton>
-                            </Wrapper>
-                    }
+                    {account.view === 'login' ? (
+                        <Wrapper>
+                            <TextField variant="standard" onChange={onValueChange} name="username" label="Enter Username" />
+                            {error && <Error>{error}</Error>}
+                            <TextField variant="standard" onChange={onValueChange} name="password" label="Enter Password" type="password" />
+                            <Text>By continuing, you agree to <span style={{ color: '#2874f0' }}>Krish Footwear's Terms & Conditions</span></Text>
+                            <LoginButton onClick={loginUser}>Login</LoginButton>
+                            <Typography style={{ textAlign: 'center', color: '#878787' }}>OR</Typography>
+                            <RequestOtp>Request OTP</RequestOtp>
+                            <CreateAccount onClick={() => { setError(''); toggleAccount(accountInitialValues.signup); }}>
+                                New to Krish Footwear? Create an account
+                            </CreateAccount>
+                        </Wrapper>
+                    ) : (
+                        <Wrapper>
+                            <TextField variant="standard" onChange={onInputChange} name="firstname" label="Enter Firstname" />
+                            <TextField variant="standard" onChange={onInputChange} name="lastname" label="Enter Lastname" />
+                            <TextField variant="standard" onChange={onInputChange} name="username" label="Enter Username" />
+                            <TextField variant="standard" onChange={onInputChange} name="email" label="Enter Email" />
+                            <TextField variant="standard" onChange={onInputChange} name="password" label="Enter Password" type="password" />
+                            <TextField variant="standard" onChange={onInputChange} name="phone" label="Enter Mobile Number" />
+                            {error && <Error>{error}</Error>}
+                            <LoginButton onClick={signupUser}>Continue</LoginButton>
+                        </Wrapper>
+                    )}
                 </Box>
             </Component>
         </Dialog>

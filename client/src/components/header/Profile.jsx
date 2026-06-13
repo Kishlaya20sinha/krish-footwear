@@ -26,9 +26,12 @@ const Profile = ({ account, setAccount }) => {
     }
 
     const logoutUser = () => {
-        setAccount(''); // Clears the user's name from the global state
-        setOpen(false); // Ensures the menu closes after clicking logout
-    }
+        localStorage.removeItem('token');
+        localStorage.removeItem('account');
+        localStorage.removeItem('cartItems');
+        setAccount('');
+        setOpen(false);
+    };
 
     return (
         <>
